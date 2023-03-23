@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="30dp"
+        android:padding="10dp"
+        android:text="@string/matricule"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/etMatricule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:hint="@string/matricule2"
+        android:inputType=""
+        android:minHeight="48dp"
+        tools:ignore="LabelFor" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="30dp"
+        android:padding="10dp"
+        android:text="@string/mot_de_passe"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/etMdo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:hint="@string/mot_de_passe2"
+        android:inputType=""
+        android:minHeight="48dp"
+        tools:ignore="LabelFor" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bValider"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/valider"
+            android:onClick="seConnecter"
+            tools:ignore="OnClick,UsingOnClickInXml" />
+
+        <Button
+            android:id="@+id/bAnnuler"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/annuler"
+            android:onClick="annuler"
+            tools:ignore="OnClick,UsingOnClickInXml"/>
+    </LinearLayout>
+
+
+</LinearLayout>

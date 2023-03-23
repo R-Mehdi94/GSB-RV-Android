@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">RV</string>
+    <string name="chec_de_la_connexion_recommencez">Èchec de la connexion. Recommencez...</string>
+    <string name="matricule">Matricule :</string>
+    <string name="mot_de_passe">Mot de passe :</string>
+    <string name="valider">Valider</string>
+    <string name="annuler">Annuler</string>
+    <string name="matricule2">Matricule</string>
+    <string name="mot_de_passe2">Mot de passe</string>
+    <string name="ok">OK</string>
+    <string name="consutler_un_rapport_de_visite">CONSUTLER UN RAPPORT DE VISITE</string>
+    <string name="saisir_un_rapport_de_visite">SAISIR UN RAPPORT DE VISITE</string>
+    <string name="mois">Mois</string>
+    <string name="annee">Année</string>
+</resources>
