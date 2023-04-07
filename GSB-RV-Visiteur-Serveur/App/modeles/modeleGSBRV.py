@@ -3,6 +3,7 @@
 
 
 import mysql.connector
+from datetime import datetime
 
 
 connexionBD = None
@@ -90,6 +91,50 @@ def getRapportsVisite( matricule , mois , annee ) :
 		
 	except :
 		return None
+	
+
+def getRapportsVisiteDate( matricule , date, rapportNum ) :
+	try :
+		curseur = getConnexionBD().cursor()
+		requete = '''
+					select 
+						rv.rap_num ,
+						rv.rap_date_visite ,
+						rv.rap_bilan ,
+						p.pra_nom ,
+						p.pra_prenom ,
+						p.pra_cp ,
+						p.pra_ville
+					from RapportVisite as rv
+					inner join Praticien as p
+					on p.pra_num = rv.pra_num
+					where rv.vis_matricule = %s
+					and rv.rap_date_visite = %s
+					and rv.rap_num = %s
+					order by rv.rap_date_visite
+				'''
+
+		curseur.execute( requete , ( matricule , date , rapportNum ) )
+		
+		enregistrements = curseur.fetchall()
+		
+		rapports = {}
+		for unEnregistrement in enregistrements :
+			rapports[ 'rap_num' ] = unEnregistrement[ 0 ]
+			rapports[ 'rap_date_visite' ] = '%04d-%02d-%02d' % ( unEnregistrement[ 1 ].year , unEnregistrement[ 1 ].month , unEnregistrement[ 1 ].day )
+			rapports[ 'rap_bilan' ] = unEnregistrement[ 2 ]
+			rapports[ 'pra_nom' ] = unEnregistrement[ 3 ]
+			rapports[ 'pra_prenom' ] = unEnregistrement[ 4 ]
+			rapports[ 'pra_cp' ] = unEnregistrement[ 5 ]
+			rapports[ 'pra_ville' ] = unEnregistrement[ 6 ]
+			
+		curseur.close()
+		return rapports
+		
+	except :
+		return None
+	
+
 		
 def getEchantillonsOfferts( matricule , numRapportVisite ) :
 	
@@ -216,11 +261,11 @@ def enregistrerRapportVisite( matricule , numPraticien , dateVisite , bilan ) :
 			curseur = getConnexionBD().cursor()
 
 			requete = '''
-				insert into RapportVisite( vis_matricule , rap_num , rap_date_visite , rap_bilan , pra_num )
-				values( %s , %s , %s , %s , %s )
+				insert into RapportVisite( vis_matricule , rap_num , rap_date_visite , rap_date_redaction , rap_bilan , pra_num )
+				values( %s , %s , %s , %s , %s , %s )
 				'''
 
-			curseur.execute( requete, ( matricule , numRapportVisite , dateVisite , bilan , numPraticien ) )
+			curseur.execute( requete, ( matricule , numRapportVisite , dateVisite , datetime.today().strftime('%Y-%m-%d') , bilan , numPraticien ) )
 			connexionBD.commit()
 			curseur.close()
 

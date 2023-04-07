@@ -30,14 +30,11 @@ import fr.gsb.rv.technique.Session;
 public class MainActivity extends AppCompatActivity {
 
      static final String TAG = "GSB_MAIN_ACTIVITY";
-     TextView tvVisiteur;
      EditText etMatricule;
      EditText etMdp;
      Button bSeConnecter;
-     Button bSeDeconnecter;
      Button bAnnuler;
-     ModeleGsb modele = new ModeleGsb();
-     //String url = "http://172.20.50.8/visiteurs/"+etMatricule.getText().toString()+"/"+etMdp.getText().toString();
+     //ModeleGsb modele = new ModeleGsb();
 
 
     @Override
@@ -92,9 +89,10 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+
         JsonObjectRequest requete = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://"+ Ip.ip +"/visiteurs/"+etMatricule.getText().toString()+"/"+etMdp.getText().toString(),
+                Ip.ip +"/visiteurs/"+etMatricule.getText().toString()+"/"+etMdp.getText().toString(),
                 null,
                 ecouteurReponse,
                 ecouteurError
@@ -102,11 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
         RequestQueue fileRequetes = Volley.newRequestQueue(this);
         fileRequetes.add(requete);
-
-
-
-
-
 
 
 
@@ -149,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         etMatricule.setText("");
         etMdp.setText("");
     }
+
 
 
 }

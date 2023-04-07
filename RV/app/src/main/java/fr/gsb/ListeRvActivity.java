@@ -2,9 +2,14 @@ package fr.gsb;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -20,41 +25,71 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import fr.gsb.rv.entites.RapportVisite;
 import fr.gsb.rv.entites.Visiteur;
 import fr.gsb.rv.technique.Ip;
 import fr.gsb.rv.technique.Session;
 
-public class ListeRvActivity extends AppCompatActivity {
+public class ListeRvActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     static final String TAG = "GSB_Liste_Rv_Activity";
 
 
     TextView mois;
     TextView annee;
+    ListView lvRapportVisite;
 
+    private List<RapportVisite> rapportVisiteList;
+
+    public static List<String> rapportDate;
+
+    private RapportVisite rapportVisite = new RapportVisite();
+
+    private int numRapport;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        Bundle paquet = this.getIntent().getExtras();
+
+
+        rapportDate = paquet.getStringArrayList("rapportDate");
+        rapportVisiteList = paquet.getParcelableArrayList("rapportVisite");
+        // rapportNum = paquet.getIntegerArrayList("rapportNum");
+
+
+
+        String moisP = paquet.getString("mois");
+        String anneeP = paquet.getString("annee");
+
+
+
+
         Log.v(TAG, "onCreate :" + "Création de l'activité ListeRvActivity");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_rv);
 
-        Bundle paquet = this.getIntent().getExtras();
+        lvRapportVisite = findViewById(R.id.lvRapports);
 
 
-        String moisP = paquet.getString("mois");
+        ArrayAdapter<String> adaptateur = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                rapportDate
+        );
 
-        String anneeP = paquet.getString("annee");
 
-        int moisInt = paquet.getInt("moisInt");
+        lvRapportVisite.setAdapter(adaptateur);
 
+        lvRapportVisite.setOnItemClickListener(this);
 
-
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxx " +moisP + anneeP);
 
         mois = findViewById(R.id.mois);
         annee = findViewById(R.id.annee);
@@ -62,33 +97,51 @@ public class ListeRvActivity extends AppCompatActivity {
         mois.setText(moisP);
         annee.setText(anneeP);
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        String rapportSelectionne = rapportDate.get(position);
+
+        for (RapportVisite rapport: rapportVisiteList) {
+            if(Objects.equals(rapport.getDateVisite(), rapportSelectionne)){
+                numRapport = rapport.getNumero();
+            }
+        }
 
 
-        Response.Listener<JSONArray> ecouteurReponse = new Response.Listener<JSONArray>() {
+        Response.Listener<JSONObject> ecouteurReponse = new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(JSONObject response) {
 
                 try{
 
-                    for(int i = 0; i <response.length(); i++ ){
-                        RapportVisite unRapport = new RapportVisite();
+                    rapportVisite.setNumero(response.getInt(("rap_num")));
+                    rapportVisite.setDateVisite(response.getString("rap_date_visite"));
+                    rapportVisite.setBilan(response.getString("rap_bilan"));
+                    rapportVisite.setNomPraticien(response.getString("pra_nom"));
+                    rapportVisite.setPrenomPraticien(response.getString("pra_prenom"));
+                    rapportVisite.setCpPraticien(response.getString("pra_cp"));
+                    rapportVisite.setVillePraticen(response.getString("pra_ville"));
 
-                        unRapport.setNumero(Integer.parseInt(response.getJSONObject(i).getString("rap_num")));
-                        unRapport.setDateVisite(response.getJSONObject(i).getString("rap_date_visite"));
-                        unRapport.setBilan(response.getJSONObject(i).getString("rap_bilan"));
-                        unRapport.setNomPraticien(response.getJSONObject(i).getString("pra_nom"));
-                        unRapport.setPrenomPraticien(response.getJSONObject(i).getString("pra_prenom"));
-                        unRapport.setCpPraticien(response.getJSONObject(i).getString("pra_cp"));
-                        unRapport.setVillePraticen(response.getJSONObject(i).getString("pra_ville"));
+                    Log.v(TAG, "onCreate :" + "Création du Bundle RechercheRV");
 
-                        Log.i(TAG, unRapport.toString());
 
-                    }
+                    Bundle paquet = new Bundle();
+                    paquet.putParcelable("rapportVisite", rapportVisite);
+
+
+                    Intent intentionEnvoyer = new Intent(getApplicationContext(), VIsuRvActivity.class);
+
+                    intentionEnvoyer.putExtras(paquet);
+
+                    startActivity(intentionEnvoyer);
+
+                    Log.v(TAG, "intention :" + "Intention vers ListeRvActivity");
+
 
                     Log.v(TAG, "200 Ok");
-
-                    Intent intentionEnvoyer = new Intent(getApplicationContext(), MenuRvActivity.class);
-                    startActivity(intentionEnvoyer);
 
 
                 }catch(JSONException e){
@@ -104,13 +157,12 @@ public class ListeRvActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Erreur HTTP :" + " " + error.getMessage());
-                System.out.println("erreur"+ mois.toString() + annee.toString());
             }
         };
 
-        JsonArrayRequest requete = new JsonArrayRequest(
+        JsonObjectRequest requete = new JsonObjectRequest(
                 Request.Method.GET,
-                "http://"+Ip.ip+"/rapports/"+Session.getSession().getLeVisiteur().getMatricule()+"/"+moisInt+"/"+anneeP,
+                Ip.ip+"/rapportsDate/"+ Session.getSession().getLeVisiteur().getMatricule()+"/"+rapportSelectionne+"/"+numRapport,
                 null,
                 ecouteurReponse,
                 ecouteurError
@@ -120,4 +172,8 @@ public class ListeRvActivity extends AppCompatActivity {
         fileRequetes.add(requete);
 
     }
+
+
+
+
 }

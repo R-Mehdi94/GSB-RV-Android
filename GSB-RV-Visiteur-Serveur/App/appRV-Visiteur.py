@@ -44,6 +44,28 @@ def getRapportsVisite( matricule , mois , annee ) :
 		reponse.mimetype = 'application/json'
 		reponse.status_code = 404
 	return reponse
+
+
+@app.route( '/rapportsDate/<matricule>/<date>/<rapportNum>' , methods = [ 'GET' ] )
+def getRapportsVisiteDate( matricule , date , rapportNum) :
+	rapports = modeleGSBRV.getRapportsVisiteDate( matricule , date , rapportNum )
+	
+	if  not(rapports) :
+		reponse = make_response('')
+		reponse.mimetype = 'application/json'
+		reponse.status_code = 0
+		return reponse
+
+
+	elif rapports != None :
+		reponse = make_response(json.dumps(rapports))
+		reponse.mimetype = 'application/json'
+		reponse.status_code = 200
+	else :
+		reponse = make_response( '' )
+		reponse.mimetype = 'application/json'
+		reponse.status_code = 404
+	return reponse
 	
 
 @app.route( '/rapports/echantillons/<matricule>/<numRapport>' , methods = [ 'GET' ] )
@@ -139,5 +161,4 @@ def getMotifs():
 
 if __name__ == '__main__' :
 	app.run( debug = True , host = '0.0.0.0' , port = 80 )
-
-
+	

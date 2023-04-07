@@ -12,4 +12,7 @@
     <string name="saisir_un_rapport_de_visite">SAISIR UN RAPPORT DE VISITE</string>
     <string name="mois">Mois</string>
     <string name="annee">Année</string>
+    <string name="Praticien" />
+    <string name="Motif" />
+    <string name="Bilan" />
 </resources>
