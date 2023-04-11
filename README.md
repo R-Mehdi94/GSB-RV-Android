@@ -4,11 +4,11 @@ Application de saisie des rapports de visite.
 
 ## Contexte
 
-- [GSB - Fiche descriptive](https://github.com/R-Mehdi94/GSB-RV-ANDROID-DOC/blob/master/doc/01-GSB-AppliRV-FicheDescriptive.pdf)
-- [GSB - Cas d'utilisation](https://github.com/R-Mehdi94/GSB-RV-ANDROID-DOC/blob/master/doc/02-GSB-AppliRV-Visiteur-UC.pdf)
-- [GSB - Modèle Entité-Association](https://github.com/R-Mehdi94/GSB-RV-ANDROID-DOC/blob/master/doc/03-GSB-AppliRV-MEA.pdf)
-- [GSB - Diagramme de navigation](https://github.com/R-Mehdi94/GSB-RV-ANDROID-DOC/blob/master/doc/04-GSB-AppliRV-Navigation.pdf)
-- [GSB - Documentation API / Arborescence](https://github.com/R-Mehdi94/GSB-RV-ANDROID-DOC/blob/master/doc/05-GSB-AppliRV-Documentation-API.pdf)
+- [GSB - Fiche descriptive](https://github.com/R-Mehdi94/GSB-RV-ANDROID-DOC/blob/master/01-GSB-AppliRV-FicheDescriptive.pdf)
+- [GSB - Cas d'utilisation](https://github.com/R-Mehdi94/GSB-RV-ANDROID-DOC/blob/master/02-GSB-AppliRV-Visiteur-UC.pdf)
+- [GSB - Modèle Entité-Association](https://github.com/R-Mehdi94/GSB-RV-ANDROID-DOC/blob/master/03-GSB-AppliRV-MEA.pdf)
+- [GSB - Diagramme de navigation](https://github.com/R-Mehdi94/GSB-RV-ANDROID-DOC/blob/master/04-GSB-AppliRV-Navigation.pdf)
+- [GSB - Documentation API / Arborescence](https://github.com/R-Mehdi94/GSB-RV-ANDROID-DOC/blob/master/05-GSB-AppliRV-Documentation-API.pdf)
 
 ## Installation
 
