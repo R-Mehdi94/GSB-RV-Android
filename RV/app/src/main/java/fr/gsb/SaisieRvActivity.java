@@ -186,9 +186,18 @@ public class SaisieRvActivity extends AppCompatActivity implements DatePickerDia
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        selectedElementPraticien = spPraticien.getItemAtPosition(position).toString();
-        selectedElementMotif = spMotif.getItemAtPosition(position).toString();
-        selectedElementCoef = spCoefConf.getItemAtPosition(position).toString();
+
+        if (position < spPraticien.getCount()) {
+            selectedElementPraticien = spPraticien.getItemAtPosition(position).toString();
+        }
+
+        if (position < spMotif.getCount()) {
+            selectedElementMotif = spMotif.getItemAtPosition(position).toString();
+        }
+
+        if (position < spCoefConf.getCount()) {
+            selectedElementCoef = spCoefConf.getItemAtPosition(position).toString();
+        }
 
 
     }
