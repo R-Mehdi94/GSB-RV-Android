@@ -57,6 +57,7 @@ public class SaisieRvActivity extends AppCompatActivity implements DatePickerDia
     public String selectedElementMotif;
     public String selectedElementCoef;
     private int numPraticien;
+    private int numMotifs;
 
 
 
@@ -186,20 +187,17 @@ public class SaisieRvActivity extends AppCompatActivity implements DatePickerDia
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        if (position < spPraticien.getCount()) {
+        // Vérifier quel spinner a déclenché l'événement
+        if (parent == spPraticien) {
+            // Gérer la sélection d'un élément dans le spinner spPraticien
             selectedElementPraticien = spPraticien.getItemAtPosition(position).toString();
-        }
-
-        if (position < spMotif.getCount()) {
+        } else if (parent == spMotif) {
+            // Gérer la sélection d'un élément dans le spinner spMotif
             selectedElementMotif = spMotif.getItemAtPosition(position).toString();
-        }
-
-        if (position < spCoefConf.getCount()) {
+        } else if (parent == spCoefConf) {
+            // Gérer la sélection d'un élément dans le spinner spCoefConf
             selectedElementCoef = spCoefConf.getItemAtPosition(position).toString();
         }
-
-
     }
 
 
@@ -216,8 +214,14 @@ public class SaisieRvActivity extends AppCompatActivity implements DatePickerDia
             }
         }
 
-        System.out.println(Session.getSession().getLeVisiteur().getMatricule() +" " + numPraticien + " " + date + " " + bilan);
+        for (Motifs motifs: motifsList) {
+            if(Objects.equals(motifs.getLibelle(), selectedElementMotif)){
+                numMotifs = motifs.getNumero();
+            }
+        }
 
+
+        Log.v(TAG, selectedElementCoef);
 
         JSONObject params = new JSONObject();
 
@@ -225,6 +229,9 @@ public class SaisieRvActivity extends AppCompatActivity implements DatePickerDia
         params.put("praticien", numPraticien);
         params.put("visite", date);
         params.put("bilan", bilan);
+        params.put("coefConfiance", selectedElementCoef);
+        params.put("motif", numMotifs);
+
 
 
 

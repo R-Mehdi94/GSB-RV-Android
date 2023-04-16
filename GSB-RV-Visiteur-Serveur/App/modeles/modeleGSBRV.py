@@ -251,7 +251,7 @@ def genererNumeroRapportVisite( matricule ) :
 		return None
 
 
-def enregistrerRapportVisite( matricule , numPraticien , dateVisite , bilan ) :
+def enregistrerRapportVisite( matricule , numPraticien , dateVisite , bilan, coefConfiance, motif ) :
 	
 	numRapportVisite = genererNumeroRapportVisite( matricule )
 	
@@ -261,11 +261,11 @@ def enregistrerRapportVisite( matricule , numPraticien , dateVisite , bilan ) :
 			curseur = getConnexionBD().cursor()
 
 			requete = '''
-				insert into RapportVisite( vis_matricule , rap_num , rap_date_visite , rap_date_redaction , rap_bilan , pra_num )
-				values( %s , %s , %s , %s , %s , %s )
+				insert into RapportVisite( vis_matricule , rap_num , rap_date_visite , rap_date_redaction , rap_bilan , pra_num, rap_coef_confiance , mot_num)
+				values( %s , %s , %s , %s , %s , %s , %s , %s )
 				'''
 
-			curseur.execute( requete, ( matricule , numRapportVisite , dateVisite , datetime.today().strftime('%Y-%m-%d') , bilan , numPraticien ) )
+			curseur.execute( requete, ( matricule , numRapportVisite , dateVisite , datetime.today().strftime('%Y-%m-%d') , bilan , numPraticien, coefConfiance , motif ) )
 			connexionBD.commit()
 			curseur.close()
 

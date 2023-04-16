@@ -119,7 +119,9 @@ def addRapportVisite() :
 	numRapport = modeleGSBRV.enregistrerRapportVisite( 	unRapport[ 'matricule' ] , 
 																unRapport[ 'praticien' ] ,
 																unRapport[ 'visite' ] ,
-																unRapport[ 'bilan' ] )
+																unRapport[ 'bilan' ] ,
+																unRapport['coefConfiance'], 
+																unRapport['motif'] )
 	
 	reponse = make_response( '' )												
 	if numRapport != None :
